@@ -1,0 +1,35 @@
+body {
+  background-color: linen;
+  font-family: sans-serif;
+}
+
+button {
+  margin-top: 1rem;
+}
+
+/* Don't render a vertical line on bars on hover. */
+.c3-event-rects {
+  display: none;
+}
+
+.c3-text {
+  transform: translateY(20px);
+  fill: white !important; /* TODO: make this dynamic */
+  font-size: 0.8rem;
+}
+
+/* Prevent display of legend when hovering over a bar. */
+.c3-tooltip {
+  display: none;
+}
+
+#chart {
+  background-color: white;
+  display: inline-block;
+  padding: 10px 10px 0 0;
+}
+
+.c3-bars > path {
+  stroke: black !important;
+  stroke-width: 1;
+}
