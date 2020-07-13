@@ -18,7 +18,8 @@ const allData = [
   {name: 'watermelon', colorIndex: 11}
 ];
 
-const colors = d3.schemePaired;
+const allColors = d3.schemePaired;
+let colors = [];
 let names = [];
 let oldData = [];
 
@@ -57,9 +58,7 @@ const chart = c3.generate({
   },
   bindto: '#chart',
   data: {
-    colors: {
-      scores: d => colors[d.index % colors.length]
-    },
+    colors: {scores: d => colors[d.index]},
     columns: [],
     labels: true, // displays values above bars using same color as bar
     type: 'bar',
@@ -78,7 +77,9 @@ function updateData() {
   const newData = getRandomData();
 
   names = newData.map(d => d.name);
+  colors = newData.map(d => allColors[d.colorIndex]);
   const newValues = newData.map(d => d.score);
+
   const oldKeys = oldData.map(d => d.name);
   const unloadKeys = oldKeys.filter(oldKey => !newData[oldKey]);
   chart.load({
@@ -89,8 +90,15 @@ function updateData() {
     unload: unloadKeys
   });
 
-  //TODO: This is not working!
-  chart.axis.max({y: d3.max(newValues)});
+  // This line causes problems with the y axis.
+  // Not sure why - 1 is needed here.
+  //chart.axis.max({y: d3.max(newValues) - 1});
+
+  // This line causes problems with the y axis.
+  // Not sure why C3 thinks the min y value
+  // is less than zero when there is only one bar.
+  // Not sure why this needs to be set to one instead of zero.
+  //chart.axis.min({y: 0});
 
   oldData = newData;
 }
