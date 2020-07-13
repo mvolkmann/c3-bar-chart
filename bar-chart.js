@@ -39,28 +39,11 @@ function getRandomData() {
   return data;
 }
 
-// This returns a text color to use on a given background color.
-function getTextColor(bgColor) {
-  //console.log('bar-chart.js x: bgColor =', bgColor);
-  // Convert the hex background color to its decimal components.
-  const red = parseInt(bgColor.substring(1, 3), 16);
-  const green = parseInt(bgColor.substring(3, 5), 16);
-  const blue = parseInt(bgColor.substring(5, 7), 16);
-
-  // Compute the "relative luminance".
-  const luminance = (0.2126 * red + 0.7152 * green + 0.0722 * blue) / 255;
-  //console.log('bar-chart.js getTextColor: luminance =', luminance);
-
-  // Use dark text on light backgrounds and vice versa.
-  //TODO: Why are colors backwards compared to D3 code?
-  return luminance > 0.5 ? 'black' : 'white';
-}
-
 const chart = c3.generate({
   axis: {
     x: {
       tick: {
-        multiline: false, // prevents wrapping
+        multiline: false, // prevents word wrapping
         rotate: -45
       },
       type: 'category'
@@ -69,7 +52,7 @@ const chart = c3.generate({
   bar: {
     space: 0.2,
     width: {
-      ratio: 1 // % of length between ticks
+      ratio: 1 // 100% of length between ticks
     }
   },
   bindto: '#chart',
@@ -79,19 +62,6 @@ const chart = c3.generate({
     },
     columns: [],
     labels: true, // displays values above bars using same color as bar
-    /*
-    labels: {
-      format: function (index, group) {
-        if (group === 'scores') {
-          console.log('bar-chart.js x: index =', index);
-          const score = document.querySelector('.c3-bar-' + index).__data__
-            .value;
-          console.log('bar-chart.js x: score =', score);
-        }
-        return '?';
-      }
-    },
-    */
     type: 'bar',
     x: 'names'
   },
@@ -117,32 +87,12 @@ function updateData() {
       ['scores', ...newValues]
     ],
     unload: unloadKeys
-    /*
-    done: () => {
-      console.log('bar-chart.js done: entered');
-      setTimeout(() => {
-        d3.selectAll('.c3-text').each(function (d, index) {
-          const barColor = colors[index];
-          console.log('bar-chart.js x: barColor =', barColor);
-          const textColor = getTextColor(barColor);
-          console.log('bar-chart.js x: textColor =', textColor);
-          this.style.fill = textColor;
-        });
-      }, 500);
-    }
-    */
   });
 
   //TODO: This is not working!
   chart.axis.max({y: d3.max(newValues)});
 
   oldData = newData;
-
-  /*
-  setTimeout(() => {
-    d3.selectAll('.c3-text').style('fill', 'red');
-  }, 1000);
-  */
 }
 
 // Render the first version of the chart.

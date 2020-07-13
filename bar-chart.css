@@ -14,7 +14,8 @@ button {
 
 .c3-text {
   transform: translateY(20px);
-  fill: white !important; /* TODO: make this dynamic */
+  /*TODO: I wasn't able to pick white/black based on bar color. */
+  fill: black !important;
   font-size: 0.8rem;
 }
 
